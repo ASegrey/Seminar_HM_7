@@ -17,18 +17,26 @@
                 {
                     System.Console.WriteLine("Задача 1: Задайте значения M и N. Напишите программу, которая выведет ");
                     System.Console.WriteLine("все натуральные числа в промежутке от M до N. Использовать рекурсию, не использовать циклы.");
-                    string firstLine = "Введите значение М =>");;
-                    int firstNumber = NumberInTerminal(-1,firstLine);
-                    string secondLine ="Введите значение N =>");
-                    int secondNumber = NumberInTerminal(-1,secondLine);
-
+                    string firstText = "Введите значение М => ";
+                    System.Console.Write(firstText);
+                    int firstNumber = NumberInTerminal(0xFFFFFF,firstText,1);
+                    string secondText ="Введите значение N => ";
+                    System.Console.Write(secondText);
+                    int secondNumber = NumberInTerminal(0xFFFFFF,secondText,1);
+                    System.Console.WriteLine($"Числа от {firstNumber} до {secondNumber} => {ShowDigit(firstNumber,secondNumber)}");
                     break;
                 }
                 case 2:
                 {
                     System.Console.WriteLine("Задача 2: Напишите программу вычисления функции Аккермана с помощью рекурсии.");
                     System.Console.WriteLine("Даны два неотрицательных числа m и n.");
-
+                    string firstText = "Введите значение m => ";
+                    System.Console.Write(firstText);
+                    int firstNumber = NumberInTerminal(0xFFFFFF,firstText,0);
+                    string secondText ="Введите значение n => ";
+                    System.Console.Write(secondText);
+                    int secondNumber = NumberInTerminal(0xFFFFFF,secondText,0);
+                    System.Console.WriteLine($"Значение по фукнкции Аккермана ({firstNumber},{secondNumber}) = {Ack(firstNumber,secondNumber)}");
                     break;
                 }
                 case 3:
@@ -40,13 +48,39 @@
                 }
             }
         }
+        public static int Ack(int m, int n)
+        {
+            if (m == 0) 
+            {
+                return n + 1;
+            }
+            else
+            {
+                if (n == 0) 
+                {
+                    return Ack(m - 1, 1);
+                }
+                else
+                {
+                    return Ack(m - 1, Ack(m, n - 1));
+                } 
+            }
+        }
+        public static string ShowDigit(int firstDigit,int secondDigit)
+        {
+            if (firstDigit > secondDigit)
+            {
+                return "";
+            }
+            return $"{firstDigit} " + ShowDigit(firstDigit+1,secondDigit);
+        }
         /*Функция ввода чисел в терминале*/
-        public static int NumberInTerminal(int numberDigits, string repeatString)
+        public static int NumberInTerminal(int numberDigits, string repeatString, int minValueSet)
         {
             string ? numString = Console.ReadLine();
             int numInt = 0;
             while ((!Int32.TryParse(numString,out numInt)) 
-                    || !(numInt > 0) 
+                    || !(numInt >= minValueSet) 
                     || !(numInt <= numberDigits)
                   )
             {
